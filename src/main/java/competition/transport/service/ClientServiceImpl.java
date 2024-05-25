@@ -2,12 +2,14 @@ package competition.transport.service;
 
 import competition.transport.entity.Client;
 import competition.transport.errors.DuplicateRequestException;
+import competition.transport.errors.NotFoundRequestException;
 import competition.transport.repository.ClientRepo;
 import competition.transport.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -29,8 +31,22 @@ public class ClientServiceImpl implements ClientService {
         return clientRepo.findAll();
     }
 
+    @Override
+    public String deleteClient(String id) {
+        userUUIDPresent(id);
+        clientRepo.deleteById(UUID.fromString(id));
+        return "User deleted successfully";
+    }
+
     public boolean emailPresent(String email) {
         return clientRepo.existsByEmailIgnoreCase(email);
+    }
+
+    public void userUUIDPresent(String id) {
+        boolean present = clientRepo.existsById(UUID.fromString(id));
+        if (!present) {
+            throw new NotFoundRequestException("no client with id: " + id);
+        }
     }
 
     public void emailNotPresent(String email) {

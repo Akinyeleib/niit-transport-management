@@ -8,4 +8,6 @@ public interface ClientService {
     Client saveClient(Client client) throws Exception;
 
     List<Client> getUsers();
+
+    String deleteClient(String id);
 }

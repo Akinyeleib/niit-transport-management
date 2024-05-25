@@ -22,4 +22,9 @@ public class ClientController {
         return clientService.saveClient(client);
     }
 
+    @DeleteMapping("{id}")
+    public String deleteClient(@PathVariable("id") String id) {
+        return clientService.deleteClient(id);
+    }
+
 }

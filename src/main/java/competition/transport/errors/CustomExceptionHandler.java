@@ -18,8 +18,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(errorMessage.getStatus()).body(errorMessage.getMessage());
     }
 
-    @ExceptionHandler(NotRequestException.class)
-    public ResponseEntity<String> notFoundRequest(NotRequestException exception, WebRequest request) {
+    @ExceptionHandler(NotFoundRequestException.class)
+    public ResponseEntity<String> notFoundRequest(NotFoundRequestException exception, WebRequest request) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
         return ResponseEntity.status(errorMessage.getStatus()).body(errorMessage.getMessage());
     }
@@ -27,6 +27,12 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(DuplicateRequestException.class)
     public ResponseEntity<String> duplicateRequest(DuplicateRequestException exception, WebRequest request) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.CONFLICT, exception.getMessage());
+        return ResponseEntity.status(errorMessage.getStatus()).body(errorMessage.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> genericException(Exception exception, WebRequest request) {
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
         return ResponseEntity.status(errorMessage.getStatus()).body(errorMessage.getMessage());
     }
 
