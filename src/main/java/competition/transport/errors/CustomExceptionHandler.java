@@ -12,10 +12,21 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ResponseStatus
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
-
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<String> badRequest(BadRequestException exception, WebRequest request) {
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
+        return ResponseEntity.status(errorMessage.getStatus()).body(errorMessage.getMessage());
+    }
+
+    @ExceptionHandler(NotRequestException.class)
+    public ResponseEntity<String> notFoundRequest(NotRequestException exception, WebRequest request) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
+        return ResponseEntity.status(errorMessage.getStatus()).body(errorMessage.getMessage());
+    }
+
+    @ExceptionHandler(DuplicateRequestException.class)
+    public ResponseEntity<String> duplicateRequest(DuplicateRequestException exception, WebRequest request) {
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.CONFLICT, exception.getMessage());
         return ResponseEntity.status(errorMessage.getStatus()).body(errorMessage.getMessage());
     }
 
