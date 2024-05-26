@@ -25,6 +25,7 @@ public class Client {
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
     private String phone;
     private String pin;
     private LocalDate dob;
