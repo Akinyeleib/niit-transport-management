@@ -55,4 +55,11 @@ public class ClientServiceImpl implements ClientService {
         }
     }
 
+    public Client getByEmailorThrow(String email) {
+        if (!emailPresent(email)) {
+            throw new NotFoundRequestException("Email not found in records");
+        }
+        return clientRepo.findByEmailIgnoreCase(email);
+    }
+
 }
